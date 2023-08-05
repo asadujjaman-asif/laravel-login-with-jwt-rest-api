@@ -61,13 +61,33 @@
 		const password=getInput('password');
 		const confirmPass=getInput('confirm-password');
 
-		formElement.addEventListener('submit',function(e){
+		formElement.addEventListener('submit',async function(e){
 			e.preventDefault();
-			isRequired(
+			let required=isRequired(
 				[firstName,lastName,email,mobile,password,confirmPass]
 			);
-			checkLength(password,6,12,"Password");
-			isValidateEmail(email);
-			checkPasswordMatch(password,confirmPass);
+			let length=checkLength(password,8,12,"Password");
+			let vEmail=isValidateEmail(email);
+			let mPassword=checkPasswordMatch(password,confirmPass);
+			if(required==true && length==true && vEmail==true && mPassword==true){
+				let formData={
+					firstName:firstName.value,
+					lastName:lastName.value,
+					email:email.value,
+					mobile:mobile.value,
+					password:password.value,
+				}
+				let URL="/user-registration";
+				showPreLoader();
+				let result = await axios.post(URL,formData);
+				hidePreLoader();
+				if(result.status == 200 && result.data['status']=='success'){
+					getInput('message').innerText="You have successfully registered";
+					showMessage(3000);
+					setTimeout(() => {
+						window.location.href="/auth/login";
+					}, "3000");
+				}
+			}
 		});
 	</script>

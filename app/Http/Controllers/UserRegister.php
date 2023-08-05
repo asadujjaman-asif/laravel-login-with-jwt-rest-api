@@ -44,7 +44,7 @@ class UserRegister extends Controller
             return response()->json([
                 'status' => 'failed',
                 'message' => 'User Registration Failed ! From Back-End'
-            ],400);
+            ],200);
         }
         
    }
@@ -77,15 +77,14 @@ class UserRegister extends Controller
             User::where('email',$request->email)->update(['otp'=>$otpCode]);
             return response()->json([
                 'status' => 'success',
-                'message' => 'OTP sent Successfully',
+                'message' => 'We  sent 6 digit code,please check your email.',
             ],200);
 
         }else{
             return response()->json([
                 'status' => 'failed',
-                'message' => $request->email,
-                'eee'=>$user
-            ],400);
+                'message' =>"You have entered the email address is not matching in our server.",
+            ],200);
         }
      
     }
