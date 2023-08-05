@@ -36,6 +36,7 @@
 				let result = await axios.post(URL,formData);
 				hidePreLoader();
 				if(result.status == 200 && result.data['status']=='success'){
+					sessionStorage.setItem('email',email.value);
 					getInput('message').innerText=result.data['message'];
 					showMessage(3000);
 					setTimeout(() => {

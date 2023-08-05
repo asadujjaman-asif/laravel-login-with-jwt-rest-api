@@ -99,13 +99,13 @@ class UserRegister extends Controller
                 'status' => 'success',
                 'message' => 'OTP verify Successfully',
                 'token' => $token
-            ],200);
+            ],200)->cookie('token',$token,60*24*30);
 
         }else{
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Unauthorized user'
-            ],400);
+                'message' => 'Invalid OTP Code',
+            ],200);
         }
     }
     public function resetPassword(Request $request){
@@ -122,7 +122,7 @@ class UserRegister extends Controller
             return response()->json([
                 'status' => 'failed',
                 'message' => 'Unauthorized user'
-            ],401);
+            ],200);
         }
     }
 }
